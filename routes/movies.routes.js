@@ -45,14 +45,26 @@ router.post("/:id/delete", (req, res, next)=>{
     .catch(err=>next(err))
 })
 
-router.get("/:id/edit", (req, res, next)=>{
+router.get("/:id/edit", async (req, res, next)=>{
+    try{
     const {id} = req.params
 
-    const cast = Celebrity.find().select("name")
-    console.log(cast)
+    const cast = await Celebrity.find().select("name")
 
-    Movie.findById(id)
-    .then(movie=>res.render("movies/edit-movie", {movie, cast}))
+    const movie = await Movie.findById(id)
+    console.log(movie)
+
+    res.render("movies/edit-movie", {movie, cast})
+    }
+    catch(err){next(err)}
+})
+
+router.post("/:id/edit", (req, res, next)=>{
+    const {id} = req.params
+    const {title, genre, plot, cast} = req.body
+
+    Movie.findByIdAndUpdate(id, {title, genre, plot, cast})
+    .then(res.redirect("/movies"))
     .catch(err=>next(err))
 })
 

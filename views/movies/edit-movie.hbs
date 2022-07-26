@@ -1,6 +1,6 @@
 <h2>Edit movie</h2>
 
-<form action="/movies/create" method="post">
+<form action="/movies/{{movie._id}}/edit" method="post">
 
     <label>Title
         <input type="text" name="title" value="{{movie.title}}">
@@ -24,7 +24,7 @@
         </select>
     </label>
 
-    <button>Create</button>
+    <button>Update</button>
 
 </form>
 
